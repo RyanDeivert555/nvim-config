@@ -8,13 +8,13 @@ vim.o.shiftwidth = 4   -- Number of spaces inserted when indenting
 vim.wo.number = true   -- Add number lines
 vim.cmd [[colorscheme slate]]
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
-require('nvim-treesitter.configs').setup {
+require("nvim-treesitter.configs").setup {
     ensure_installed = { "c" },
     sync_install = false,
     ignore_install = { "" },
