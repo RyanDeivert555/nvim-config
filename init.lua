@@ -14,3 +14,13 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
+require('nvim-treesitter.configs').setup {
+    ensure_installed = { "c" },
+    sync_install = false,
+    ignore_install = { "" },
+    highlight = {
+        enable = true,
+        disable = { "" },
+        additional_vim_regex_highlighting = false,
+    },
+}
