@@ -1,7 +1,13 @@
 local configFn = function()
     local cmp = require"cmp"
+    local cmp_autopair = require"nvim-autopairs.completion.cmp"
 
     vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+    cmp.event:on(
+        "comfirm_done",
+        cmp_autopair.on_confirm_done()
+    )
 
     cmp.setup({
         snippet = {
