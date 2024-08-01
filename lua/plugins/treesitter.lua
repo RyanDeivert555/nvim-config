@@ -7,7 +7,7 @@ return {
         local treesitter = require("nvim-treesitter.configs")
 
         treesitter.setup({
-            ensure_installed = { "c", "cpp" },
+            ensure_installed = { "c", "cpp", "zig" },
             sync_install = false,
             ignore_install = { "" },
             highlight = {
