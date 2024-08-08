@@ -7,5 +7,7 @@ vim.o.softtabstop = 4  -- Number of spaces inserted instead of a TAB character
 vim.o.shiftwidth = 4   -- Number of spaces inserted when indenting
 vim.opt.number = true   -- Add number lines
 vim.opt.relativenumber = true
-vim.cmd [[colorscheme slate]]
+vim.cmd [[colorscheme evening]]
+vim.opt.clipboard = "unnamedplus"
+vim.opt.termguicolors = true
 
