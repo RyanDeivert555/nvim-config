@@ -1,5 +1,8 @@
 require("config.lazy")
 
+-- TODO: why do i need first two?
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.o.cmdheight = 1
 vim.o.tabstop = 4
 vim.o.expandtab = true
