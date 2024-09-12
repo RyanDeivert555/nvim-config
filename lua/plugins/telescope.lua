@@ -12,11 +12,11 @@ return {
         local telescope_config = require("telescope.config")
         telescope_config.set_defaults{
             file_ignore_patterns = {
-                ".git",
+                "%.git",
                 "bin",
                 "temp",
                 -- specific folders
-                ".zig%-cache",
+                "%.zig%-cache",
             },
         }
     end,
