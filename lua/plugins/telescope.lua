@@ -9,12 +9,15 @@ return {
         vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
         vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
+        
         local telescope_config = require("telescope.config")
         telescope_config.set_defaults{
             file_ignore_patterns = {
                 "%.git",
+                "%.cache",
                 "bin",
                 "temp",
+                "build",
                 -- specific folders
                 "%.zig%-cache",
             },
