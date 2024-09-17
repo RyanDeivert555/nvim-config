@@ -17,7 +17,6 @@ return {
                 "%.cache",
                 "bin",
                 "temp",
-                "build",
                 -- specific folders
                 "%.zig%-cache",
             },
