@@ -10,7 +10,6 @@ vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.cmd [[colorscheme evening]]
 vim.opt.clipboard = "unnamedplus"
 vim.opt.termguicolors = true
 vim.g.loaded_perl_provider = 0
