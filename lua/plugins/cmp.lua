@@ -62,7 +62,12 @@ local configFn = function()
     lspconfig["rust_analyzer"].setup{
         capabilities = capabilites
     }
-
+    lspconfig["ts_ls"].setup{
+        capabilities = capabilites
+    }
+    lspconfig["html"].setup{
+        capabilities = capabilites
+    }
 end
 
 return {
