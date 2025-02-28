@@ -68,6 +68,9 @@ local configFn = function()
     lspconfig["html"].setup{
         capabilities = capabilites
     }
+    lspconfig["pyright"].setup{
+        capabilities = capabilites
+    }
 end
 
 return {

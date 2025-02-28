@@ -11,6 +11,7 @@ return {
         lspconfig.html.setup{
             capabilities = capabilities
         }
+        lspconfig.pyright.setup{}
         lspconfig.rust_analyzer.setup{
             settings = {
                 ["rust-analyzer"] = {
