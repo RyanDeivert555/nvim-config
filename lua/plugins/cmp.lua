@@ -1,6 +1,6 @@
 local configFn = function()
-    local cmp = require"cmp"
-    local cmp_autopair = require"nvim-autopairs.completion.cmp"
+    local cmp = require("cmp")
+    local cmp_autopair = require("nvim-autopairs.completion.cmp")
 
     vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
@@ -48,29 +48,6 @@ local configFn = function()
         }),
         matching = { disallow_symbol_nonprefix_matching = false }
     })
-
-    -- Set up lspconfig.
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    -- Replace <YOUR_LSP_SERVER> with each lsp server you"ve enabled.
-    local lspconfig = require("lspconfig")
-    lspconfig["clangd"].setup{
-        capabilities = capabilites
-    }
-    lspconfig["zls"].setup{
-        capabilities = capabilites
-    }
-    lspconfig["rust_analyzer"].setup{
-        capabilities = capabilites
-    }
-    lspconfig["ts_ls"].setup{
-        capabilities = capabilites
-    }
-    lspconfig["html"].setup{
-        capabilities = capabilites
-    }
-    lspconfig["pyright"].setup{
-        capabilities = capabilites
-    }
 end
 
 return {
