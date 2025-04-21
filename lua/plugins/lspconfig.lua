@@ -4,7 +4,12 @@ return {
     config = function()
         local lspconfig = require("lspconfig")
         local neodev = require("neodev")
-        neodev.setup{}
+        neodev.setup{
+            override = function(_, library)
+                library.enable = true
+                library.plugins = true
+            end
+        }
         lspconfig.clangd.setup{}
         lspconfig.zls.setup{}
         lspconfig.ts_ls.setup{}
