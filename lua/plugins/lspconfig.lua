@@ -1,7 +1,10 @@
 return {
     "neovim/nvim-lspconfig",
+    dependencies = "folke/neodev.nvim",
     config = function()
         local lspconfig = require("lspconfig")
+        local neodev = require("neodev")
+        neodev.setup{}
         lspconfig.clangd.setup{}
         lspconfig.zls.setup{}
         lspconfig.ts_ls.setup{}
@@ -33,12 +36,22 @@ return {
             },
         }
         lspconfig.lua_ls.setup{
-            cmd = {
-                "lua-language-server", "--logpath=~/.cache/lua-language-server/", "--configpath=~/.config/nvim/luarc.json",
+            settings = {
+                Lua = {
+                    runtime = {
+                        version = "LuaJIT",
+                    },
+                    workspace = {
+                        library = {
+                            vim.api.nvim_get_runtime_file("", true),
+                        },
+                        checkThirdParty = false,
+                    },
+                },
             },
-            filetypes = {"lua"},
-            root_markers = {
-                ".luarc.json", ".luarc.jsonc",
+            cmd = {
+                "lua-language-server",
+                "--logpath=~/.cache/lua-language-server/",
             },
         }
     end,
