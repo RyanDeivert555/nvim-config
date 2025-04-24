@@ -44,12 +44,10 @@ return {
             settings = {
                 Lua = {
                     runtime = {
-                        version = "LuaJIT",
+                        version = "Lua 5.4",
                     },
                     workspace = {
-                        library = {
-                            vim.api.nvim_get_runtime_file("", true),
-                        },
+                        library = vim.api.nvim_get_runtime_file("", true),
                         checkThirdParty = false,
                     },
                 },
