@@ -4,9 +4,9 @@ return {
         require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     config = function()
-        local treesitter = require("nvim-treesitter.configs")
+        local config = require("nvim-treesitter.configs")
 
-        treesitter.setup({
+        config.setup({
             sync_install = false,
             ignore_install = { "" },
             highlight = {

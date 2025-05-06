@@ -1,62 +1,35 @@
 return {
     "neovim/nvim-lspconfig",
-    dependencies = "folke/neodev.nvim",
     config = function()
-        local lspconfig = require("lspconfig")
-        local neodev = require("neodev")
-        neodev.setup{
-            override = function(_, library)
-                library.enable = true
-                library.plugins = true
-            end
+        vim.diagnostic.config{
+            virtual_text = true,
         }
-        lspconfig.clangd.setup{}
-        lspconfig.zls.setup{}
-        lspconfig.ts_ls.setup{}
-        -- for html autocomplete
+        vim.lsp.enable("lua_ls")
+        vim.lsp.config("lua_ls", {
+            -- TODO: stop lua_ls writing logs to protected dir
+            cmd = { "lua-language-server", "--log-path=~/.cache/lua-language-server/", }
+        })
+        vim.lsp.enable("clangd")
+        vim.lsp.enable("zls")
+        vim.lsp.enable("html")
+        -- TODO: add capabilities to all lsps?
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
-        lspconfig.html.setup{
-            capabilities = capabilities
-        }
-        lspconfig.pyright.setup{}
-        lspconfig.rust_analyzer.setup{
+        vim.lsp.config("html", {
+            capabilities = capabilities,
+        })
+        vim.lsp.enable("ts_ls")
+        vim.lsp.enable("pyright")
+        vim.lsp.enable("rust_analyzer")
+        vim.lsp.config("rust_analyzer", {
             settings = {
                 ["rust-analyzer"] = {
-                    imports = {
-                        granularity = {
-                            group = "module",
-                        },
-                        prefix = "self",
-                    },
-                    cargo = {
-                        buildScripts = {
-                            enable = true,
-                        },
-                    },
-                    procMacro = {
-                        enable = true,
+                    diagnostics = {
+                        enable = false,
                     },
                 },
             },
-        }
-        lspconfig.lua_ls.setup{
-            settings = {
-                Lua = {
-                    runtime = {
-                        version = "Lua 5.4",
-                    },
-                    workspace = {
-                        library = vim.api.nvim_get_runtime_file("", true),
-                        checkThirdParty = false,
-                    },
-                },
-            },
-            cmd = {
-                "lua-language-server",
-                "--logpath=~/.cache/lua-language-server/",
-            },
-        }
+        })
     end,
 }
 

@@ -9,8 +9,16 @@ return {
         vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
         vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
-        local telescope_config = require("telescope.config")
-        telescope_config.set_defaults{}
+        local telescope = require("telescope");
+        telescope.setup{
+            defaults = {
+                file_ignore_patterns = {
+                    "node_modules/",
+                    ".git/",
+                    "build/",
+                }
+            }
+        }
     end,
 }
 
