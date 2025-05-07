@@ -6,8 +6,7 @@ return {
         }
         vim.lsp.enable("lua_ls")
         vim.lsp.config("lua_ls", {
-            -- TODO: stop lua_ls writing logs to protected dir
-            cmd = { "lua-language-server", "--log-path=~/.cache/lua-language-server/", }
+            cmd = { "lua-language-server", "--logpath=~/.cache/lua-language-server/", }
         })
         vim.lsp.enable("clangd")
         vim.lsp.enable("zls")
