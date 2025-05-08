@@ -34,8 +34,14 @@ return {
             end,
             settings = {
                 Lua = {
-
-                }
+                    format = {
+                        enable = true,
+                        defaultConfig = {
+                            indent_style = "space",
+                            indent_size = "2",
+                        },
+                    },
+                },
             },
             cmd = {
                 "lua-language-server",
@@ -67,7 +73,7 @@ return {
 
         vim.api.nvim_create_autocmd("BufWritePre", {
             pattern = {
-                "*.zig", "*.zon", "*.rs",
+                "*.zig", "*.zon", "*.rs", "*.lua",
             },
             callback = function(_)
                 vim.lsp.buf.format()
