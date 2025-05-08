@@ -1,7 +1,7 @@
 return {
     "neovim/nvim-lspconfig",
     config = function()
-        vim.diagnostic.config{
+        vim.diagnostic.config {
             virtual_text = true,
         }
 
@@ -64,6 +64,14 @@ return {
                 },
             },
         })
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = {
+                "*.zig", "*.zon", "*.rs",
+            },
+            callback = function(_)
+                vim.lsp.buf.format()
+            end
+        })
     end,
 }
-
