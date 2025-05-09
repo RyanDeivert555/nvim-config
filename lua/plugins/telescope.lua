@@ -10,7 +10,7 @@ return {
         vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
         local telescope = require("telescope");
-        telescope.setup{
+        telescope.setup({
             defaults = {
                 file_ignore_patterns = {
                     "node_modules/",
@@ -18,7 +18,6 @@ return {
                     "build/",
                 }
             }
-        }
+        })
     end,
 }
-

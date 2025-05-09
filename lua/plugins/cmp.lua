@@ -34,7 +34,9 @@ local configFn = function()
     cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-            { name = "buffer" }
+            {
+                name = "buffer",
+            }
         }
     })
 
@@ -46,7 +48,9 @@ local configFn = function()
         }, {
             { name = "cmdline" }
         }),
-        matching = { disallow_symbol_nonprefix_matching = false }
+        matching = {
+            disallow_symbol_nonprefix_matching = false,
+        },
     })
 end
 
@@ -57,4 +61,3 @@ return {
     },
     config = configFn,
 }
-

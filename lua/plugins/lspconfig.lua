@@ -1,9 +1,9 @@
 return {
     "neovim/nvim-lspconfig",
     config = function()
-        vim.diagnostic.config {
+        vim.diagnostic.config({
             virtual_text = true,
-        }
+        })
 
         vim.lsp.enable("lua_ls")
         vim.lsp.config("lua_ls", {
