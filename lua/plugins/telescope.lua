@@ -15,6 +15,9 @@ return {
                     "node_modules/",
                     ".git/",
                     "build/",
+                    "external/",
+                    "zig-out/",
+                    "bin/",
                 }
             }
         })

@@ -5,7 +5,13 @@ return {
             virtual_text = true,
         })
 
-        vim.lsp.enable("lua_ls")
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.textDocument.completion.completionItem.snippetSupport = false
+
+        vim.lsp.config("*", {
+            capabilities = capabilities
+        })
+
         vim.lsp.config("lua_ls", {
             on_init = function(client)
                 if client.workspace_folders then
@@ -38,7 +44,7 @@ return {
                         enable = true,
                         defaultConfig = {
                             indent_style = "space",
-                            indent_size = "2",
+                            indent_size = "4",
                         },
                     },
                 },
@@ -49,18 +55,12 @@ return {
                 "--metapath=~/.cache/lua-language-server/",
             }
         })
+        vim.lsp.enable("lua_ls")
         vim.lsp.enable("clangd")
         vim.lsp.enable("zls")
         vim.lsp.enable("html")
-        -- TODO: add capabilities to all lsps?
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities.textDocument.completion.completionItem.snippetSupport = true
-        vim.lsp.config("html", {
-            capabilities = capabilities,
-        })
         vim.lsp.enable("ts_ls")
         vim.lsp.enable("pyright")
-        vim.lsp.enable("rust_analyzer")
         vim.lsp.config("rust_analyzer", {
             settings = {
                 ["rust-analyzer"] = {
@@ -70,6 +70,7 @@ return {
                 },
             },
         })
+        vim.lsp.enable("rust_analyzer")
 
         vim.api.nvim_create_autocmd("BufWritePre", {
             pattern = {

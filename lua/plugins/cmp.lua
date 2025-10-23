@@ -1,18 +1,18 @@
 local configFn = function()
     local cmp = require("cmp")
-    local cmp_autopair = require("nvim-autopairs.completion.cmp")
 
     vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
     cmp.event:on(
-        "comfirm_done",
-        cmp_autopair.on_confirm_done()
+        "confirm_done",
+        cmp_autopairs.on_confirm_done()
     )
 
     cmp.setup({
         snippet = {
             expand = function(args)
-                vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+                vim.snippet.expand(args.body)
             end,
         },
         window = {},
@@ -21,7 +21,7 @@ local configFn = function()
             ["<C-f>"] = cmp.mapping.scroll_docs(4),
             ["<C-Space>"] = cmp.mapping.complete(),
             ["<C-e>"] = cmp.mapping.abort(),
-            ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
             { name = "nvim_lsp" },
@@ -30,7 +30,6 @@ local configFn = function()
         })
     })
 
-    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won"t work anymore).
     cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
@@ -40,7 +39,6 @@ local configFn = function()
         }
     })
 
-    -- Use cmdline & path source for ":" (if you enabled `native_menu`, this won"t work anymore).
     cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
