@@ -74,7 +74,7 @@ return {
 
         vim.api.nvim_create_autocmd("BufWritePre", {
             pattern = {
-                "*.zig", "*.zon", "*.rs", "*.lua",
+                "*.zig", "*.zon", "*.rs", "*.lua", "*.c", "*.cpp", "*.h", "*.hpp",
             },
             callback = function(_)
                 vim.lsp.buf.format()
