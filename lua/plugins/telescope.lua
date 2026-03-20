@@ -18,6 +18,7 @@ return {
                     "external/",
                     "zig-out/",
                     "bin/",
+                    "obj/",
                 }
             }
         })

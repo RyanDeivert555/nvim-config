@@ -52,7 +52,6 @@ return {
             cmd = {
                 "lua-language-server",
                 "--logpath=~/.cache/lua-language-server/",
-                "--metapath=~/.cache/lua-language-server/",
             }
         })
         vim.lsp.enable("lua_ls")
@@ -61,6 +60,25 @@ return {
         vim.lsp.enable("html")
         vim.lsp.enable("ts_ls")
         vim.lsp.enable("pyright")
+        vim.lsp.enable("metals")
+        vim.lsp.config("gopls", {
+            settings = {
+                gopls = {
+                    analyses = {
+                        unusedparams = true,
+                    },
+                    staticcheck = true,
+                    gofumpt = true,
+                },
+            },
+        })
+        vim.lsp.enable("gopls")
+        vim.lsp.config("jdtls", {
+            cmd = {
+                "jdtls"
+            }
+        })
+        vim.lsp.enable("jdtls")
         vim.lsp.config("rust_analyzer", {
             settings = {
                 ["rust-analyzer"] = {
@@ -71,10 +89,20 @@ return {
             },
         })
         vim.lsp.enable("rust_analyzer")
+        vim.lsp.enable("csharp_ls")
+        vim.lsp.enable("fsautocomplete")
 
         vim.api.nvim_create_autocmd("BufWritePre", {
             pattern = {
-                "*.zig", "*.zon", "*.rs", "*.lua", "*.c", "*.cpp", "*.h", "*.hpp",
+                "*.zig", "*.zon",
+                "*.rs",
+                "*.lua",
+                "*.py",
+                "*.c", "*.cpp", "*.h", "*.hpp",
+                "*.cs", "*.fs",
+                "*.js", "*.ts",
+                "*.java", "*.scala",
+                "*.go",
             },
             callback = function(_)
                 vim.lsp.buf.format()
