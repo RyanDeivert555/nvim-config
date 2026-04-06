@@ -1,19 +1,21 @@
 return {
     "nvim-treesitter/nvim-treesitter",
-    build = function()
-        require("nvim-treesitter.install").update({ with_sync = true })()
-    end,
+    lazy = false,
+    build = ":TSUpdate",
     config = function()
-        local config = require("nvim-treesitter.configs")
-
-        config.setup({
-            sync_install = false,
-            ignore_install = { "" },
-            highlight = {
-                enable = true,
-                disable = { "" },
-                additional_vim_regex_highlighting = false,
-            },
-        })
+        local ts = require("nvim-treesitter")
+        ts.install {
+            "c", "cpp", "cmake",
+            "rust",
+            "zig",
+            "java", "scala",
+            "javascript", "typescript",
+            "go", "gomod",
+            "lua",
+            "python",
+            "c_sharp", "fsharp",
+            "vim", "vimdoc",
+            "markdown", "markdown_inline",
+        }
     end
 }

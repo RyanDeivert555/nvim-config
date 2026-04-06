@@ -1,112 +1,144 @@
 return {
     "neovim/nvim-lspconfig",
+    event = {
+        "BufReadPre",
+        "BufNewFile",
+    },
+    dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+    },
     config = function()
-        vim.diagnostic.config({
-            virtual_text = true,
+        vim.opt.updatetime = 250
+
+        vim.diagnostic.config {
+            virtual_text = {
+                format = function(diagnostic)
+                    local msg = diagnostic.message
+                    local max_width = 80
+                    if string.len(msg) > max_width then
+                        return string.sub(msg, 1, max_width) .. "..."
+                    end
+
+                    return msg
+                end,
+            },
+            float = {
+                border = "rounded",
+                source = true,
+                header = "",
+                prefix = "",
+            },
+        }
+
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true, }),
+            callback = function()
+                vim.diagnostic.open_float(nil, { focus = false, scope = "cursor", })
+            end
         })
 
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        local cmp_nvim_lsp = require("cmp_nvim_lsp")
+        local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
         capabilities.textDocument.completion.completionItem.snippetSupport = false
 
         vim.lsp.config("*", {
-            capabilities = capabilities
+            capabilities = capabilities,
         })
 
-        vim.lsp.config("lua_ls", {
-            on_init = function(client)
-                if client.workspace_folders then
-                    local path = client.workspace_folders[1].name
-
-                    if path ~= vim.fn.stdpath("config") and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
+        local servers = {
+            clangd = {},
+            zls = {},
+            html = {},
+            ts_ls = {},
+            pyright = {},
+            metals = {},
+            csharp_ls = {},
+            fsautocomplete = {},
+            gopls = {
+                settings = {
+                    gopls = {
+                        analyses = {
+                            unusedparams = true,
+                        },
+                        staticcheck = true,
+                        gofumpt = true,
+                    },
+                },
+            },
+            jdtls = {
+                cmd = {
+                    "jdtls",
+                }
+            },
+            rust_analyzer = {
+                settings = {
+                    ["rust-analyzer"] = {
+                        diagnostics = {
+                            enable = false,
+                        },
+                    },
+                },
+            },
+            lua_ls = {
+                cmd = {
+                    "lua-language-server",
+                    "--logpath=~/.cache/lua-language-server/",
+                },
+                settings = {
+                    Lua = {
+                        format = {
+                            enable = true,
+                            defaultConfig = {
+                                indent_style = "space",
+                                indent_size = "4",
+                            },
+                        },
+                    },
+                },
+                on_init = function(client)
+                    local path = client.workspace_folders and client.workspace_folders[1].name
+                    if path and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
                         return
                     end
+                    client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+                        runtime = {
+                            version = "LuaJIT",
+                            path = { "lua/?.lua", "lua/?/init.lua" },
+                        },
+                        workspace = {
+                            checkThirdParty = false,
+                            library = {
+                                vim.env.VIMRUNTIME,
+                            },
+                        },
+                    })
+                end,
+            },
+        }
+
+        for server_name, server_config in pairs(servers) do
+            vim.lsp.config(server_name, server_config)
+            vim.lsp.enable(server_name)
+        end
+
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+            callback = function(args)
+                local client = vim.lsp.get_client_by_id(args.data.client_id)
+                local bufnr = args.buf
+
+                if client and client.server_capabilities.documentFormattingProvider then
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        buffer = bufnr,
+                        callback = function()
+                            vim.lsp.buf.format {
+                                bufnr = bufnr,
+                                id = client.id,
+                            }
+                        end,
+                    })
                 end
-
-                client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-                    runtime = {
-                        version = "LuaJIT",
-                        path = {
-                            "lua/?.lua",
-                            "lua/?/init.lua",
-                        },
-                    },
-                    workspace = {
-                        checkThirdPart = false,
-                        library = {
-                            vim.env.VIMRUNTIME
-                        },
-                    },
-                })
             end,
-            settings = {
-                Lua = {
-                    format = {
-                        enable = true,
-                        defaultConfig = {
-                            indent_style = "space",
-                            indent_size = "4",
-                        },
-                    },
-                },
-            },
-            cmd = {
-                "lua-language-server",
-                "--logpath=~/.cache/lua-language-server/",
-            }
-        })
-        vim.lsp.enable("lua_ls")
-        vim.lsp.enable("clangd")
-        vim.lsp.enable("zls")
-        vim.lsp.enable("html")
-        vim.lsp.enable("ts_ls")
-        vim.lsp.enable("pyright")
-        vim.lsp.enable("metals")
-        vim.lsp.config("gopls", {
-            settings = {
-                gopls = {
-                    analyses = {
-                        unusedparams = true,
-                    },
-                    staticcheck = true,
-                    gofumpt = true,
-                },
-            },
-        })
-        vim.lsp.enable("gopls")
-        vim.lsp.config("jdtls", {
-            cmd = {
-                "jdtls"
-            }
-        })
-        vim.lsp.enable("jdtls")
-        vim.lsp.config("rust_analyzer", {
-            settings = {
-                ["rust-analyzer"] = {
-                    diagnostics = {
-                        enable = false,
-                    },
-                },
-            },
-        })
-        vim.lsp.enable("rust_analyzer")
-        vim.lsp.enable("csharp_ls")
-        vim.lsp.enable("fsautocomplete")
-
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            pattern = {
-                "*.zig", "*.zon",
-                "*.rs",
-                "*.lua",
-                "*.py",
-                "*.c", "*.cpp", "*.h", "*.hpp",
-                "*.cs", "*.fs",
-                "*.js", "*.ts",
-                "*.java", "*.scala",
-                "*.go",
-            },
-            callback = function(_)
-                vim.lsp.buf.format()
-            end
         })
     end,
 }
