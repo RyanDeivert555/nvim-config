@@ -5,9 +5,7 @@ return {
     init = function()
         vim.api.nvim_create_autocmd("FileType", {
             callback = function()
-                -- TODO: why pcall?
                 pcall(vim.treesitter.start)
-                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
             end,
         })
     end,
@@ -16,6 +14,7 @@ return {
         ts.install {
             "c", "cpp", "cmake",
             "rust",
+            "c3",
             "zig",
             "java", "scala",
             "javascript", "typescript",

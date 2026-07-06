@@ -21,6 +21,7 @@ return {
                     "zig-out/",
                     "bin/",
                     "obj/",
+                    "lib/",
                 }
             }
         })

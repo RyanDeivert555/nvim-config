@@ -54,6 +54,15 @@ return {
             metals = {},
             csharp_ls = {},
             fsautocomplete = {},
+            c3lsp = {
+                cmd = {
+                    "lsp",
+                    "--stdlib-path=/usr/lib/c3c/lib",
+                    "--diagnostics-delay=250",
+                },
+                root_markers = { "project.json", "manifest.json", ".git" },
+                filetypes = { "c3", "c3i" },
+            },
             gopls = {
                 settings = {
                     gopls = {
@@ -97,7 +106,7 @@ return {
                 },
                 on_init = function(client)
                     local path = client.workspace_folders and client.workspace_folders[1].name
-                    if path and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
+                    if path and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc")) then
                         return
                     end
                     client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {

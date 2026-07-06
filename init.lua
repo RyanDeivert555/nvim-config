@@ -11,6 +11,8 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- identation
+vim.opt.autoindent = true
+vim.opt.smartindent = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -32,5 +34,10 @@ vim.opt.wrap = false
 -- system
 vim.opt.clipboard = "unnamedplus"
 vim.opt.undofile = true
+
+-- other
+-- Remove the colon from the triggers that cause re-indentation
+vim.opt.cinkeys:remove(":")
+vim.opt.indentkeys:remove(":")
 
 require("config.lazy")
