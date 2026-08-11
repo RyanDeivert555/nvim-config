@@ -22,12 +22,7 @@ require("lazy").setup {
             import = "plugins",
         },
     },
-    install = {
-        -- fallback scheme
-        -- colorscheme = {
-        --     "habamax",
-        -- },
-    },
+    install = {},
     checker = {
         enabled = true,
         notify = false,

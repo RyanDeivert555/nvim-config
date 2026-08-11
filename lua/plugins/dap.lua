@@ -41,7 +41,6 @@ return {
             },
         }
         dap.configurations.cpp = dap.configurations.c
-        dap.configurations.rust = dap.configurations.c
         dap.adapters["rust-gdb"] = {
             type = "executable",
             command = "rust-gdb",

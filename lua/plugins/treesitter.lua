@@ -4,8 +4,12 @@ return {
     build = ":TSUpdate",
     init = function()
         vim.api.nvim_create_autocmd("FileType", {
-            callback = function()
-                pcall(vim.treesitter.start)
+            group = vim.api.nvim_create_augroup("treesitter_start", { clear = true, }),
+            callback = function(args)
+                local lang = vim.treesitter.language.get_lang(args.match)
+                if lang and vim.treesitter.language.add(lang) then
+                    vim.treesitter.start(args.buf, lang)
+                end
             end,
         })
     end,
@@ -14,7 +18,6 @@ return {
         ts.install {
             "c", "cpp", "cmake",
             "rust",
-            "c3",
             "zig",
             "java", "scala",
             "javascript", "typescript",
@@ -22,7 +25,7 @@ return {
             "lua",
             "python",
             "c_sharp", "fsharp",
-            "vim", "vimdoc", "vimdoc",
+            "vim", "vimdoc",
             "markdown", "markdown_inline",
         }
     end,

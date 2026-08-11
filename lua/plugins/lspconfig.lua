@@ -30,7 +30,7 @@ return {
             },
         }
 
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        vim.api.nvim_create_autocmd({ "CursorHold", }, {
             group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true, }),
             callback = function()
                 vim.diagnostic.open_float(nil, { focus = false, scope = "cursor", })
@@ -54,15 +54,6 @@ return {
             metals = {},
             csharp_ls = {},
             fsautocomplete = {},
-            c3lsp = {
-                cmd = {
-                    "lsp",
-                    "--stdlib-path=/usr/lib/c3c/lib",
-                    "--diagnostics-delay=250",
-                },
-                root_markers = { "project.json", "manifest.json", ".git" },
-                filetypes = { "c3", "c3i" },
-            },
             gopls = {
                 settings = {
                     gopls = {
@@ -83,7 +74,7 @@ return {
                 settings = {
                     ["rust-analyzer"] = {
                         diagnostics = {
-                            enable = false,
+                            enable = true,
                         },
                     },
                 },
@@ -91,7 +82,6 @@ return {
             lua_ls = {
                 cmd = {
                     "lua-language-server",
-                    "--logpath=~/.cache/lua-language-server/",
                 },
                 settings = {
                     Lua = {
@@ -136,8 +126,9 @@ return {
                 local client = vim.lsp.get_client_by_id(args.data.client_id)
                 local bufnr = args.buf
 
-                if client and client.server_capabilities.documentFormattingProvider then
+                if client and client:supports_method("textDocument/formatting") then
                     vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = vim.api.nvim_create_augroup("lsp_format_" .. bufnr, { clear = true }),
                         buffer = bufnr,
                         callback = function()
                             vim.lsp.buf.format {
@@ -147,6 +138,13 @@ return {
                         end,
                     })
                 end
+            end,
+        })
+
+        vim.api.nvim_create_autocmd("LspDetach", {
+            group = vim.api.nvim_create_augroup("UserLspDetach", {}),
+            callback = function(args)
+                pcall(vim.api.nvim_del_augroup_by_name, "lsp_format_" .. args.buf)
             end,
         })
     end,
