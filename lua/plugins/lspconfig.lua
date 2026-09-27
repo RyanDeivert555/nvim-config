@@ -51,7 +51,6 @@ return {
             html = {},
             ts_ls = {},
             pyright = {},
-            metals = {},
             csharp_ls = {},
             fsautocomplete = {},
             gopls = {

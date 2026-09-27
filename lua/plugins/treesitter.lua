@@ -19,7 +19,7 @@ return {
             "c", "cpp", "cmake",
             "rust",
             "zig",
-            "java", "scala",
+            "java",
             "javascript", "typescript",
             "go", "gomod",
             "lua",
