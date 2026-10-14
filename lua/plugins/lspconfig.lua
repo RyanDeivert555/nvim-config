@@ -15,7 +15,7 @@ return {
                 format = function(diagnostic)
                     local msg = diagnostic.message
                     local max_width = 80
-                    if string.len(msg) > max_width then
+                    if #msg > max_width then
                         return string.sub(msg, 1, max_width) .. "..."
                     end
 
